@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ShiftsLogger.Api.TerrenceLGee/ShiftsLogger.Api.TerrenceLGee.csproj" />
+  <Project Path="ShiftsLogger.Contracts.TerrenceLGee/ShiftsLogger.Contracts.TerrenceLGee.csproj" />
+</Solution>
