@@ -13,5 +13,7 @@ public interface IShiftsLoggerRepository
     Task<PagedList<Shift>> GetShiftsAsync(PaginationParams paginationParams);
     Task<PagedList<Shift>> GetAllShiftsForAdminAsync(PaginationParams paginationParams);
     Task<int> GetCountOfShiftsAsync(UserParams userParams);
-    Task<int> GetCountOfShiftsForAdminAsync();
+    Task<int> GetCountOfAllShiftsForAdminAsync();
+    Task<bool> IsValidShiftId(int shiftId);
+    Task<bool> IsValidShiftOwnership(UserParams userParams);
 }

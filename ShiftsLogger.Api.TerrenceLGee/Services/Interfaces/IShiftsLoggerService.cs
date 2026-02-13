@@ -14,5 +14,5 @@ public interface IShiftsLoggerService
     Task<Result<PagedList<RetrievedShiftDto>>> GetShiftsAsync(PaginationParams paginationParams);
     Task<Result<PagedList<RetrievedShiftDto>>> GetAllShiftsForAdminAsync(PaginationParams paginationParams);
     Task<Result<int>> GetCountOfShiftsAsync(UserParams userParams);
-    Task<Result<int>> GetCountOfShiftsForAdminAsync();
+    Task<Result<int>> GetCountOfAllShiftsForAdminAsync();
 }

@@ -31,18 +31,48 @@ public class ShiftsLoggerService : IShiftsLoggerService
 
     public async Task<Result<RetrievedShiftDto?>> UpdateShiftAsync(UpdateShiftDto updateShiftDto)
     {
+        var isValidShiftId = await _repository.IsValidShiftId(updateShiftDto.Id);
+
+        if (!isValidShiftId)
+        {
+            return Result<RetrievedShiftDto?>.Fail($"No shift with id {updateShiftDto.Id} found");
+        }
+
+        var isValidCredentials = await _repository
+            .IsValidShiftOwnership(new UserParams { ShiftId = updateShiftDto.Id, UserId = updateShiftDto.UserId });
+
+        if (!isValidCredentials)
+        {
+            return Result<RetrievedShiftDto?>.Fail($"Invalid credentials for accessing or modifying shift {updateShiftDto.Id}");
+        }
+
         var updatedShift = await _repository.UpdateShiftAsync(updateShiftDto.FromUpdateShiftDto());
 
         if (updatedShift is null)
         {
-            return new Result<RetrievedShiftDto?>($"Error updating shift {updateShiftDto.Id}");
+            return Result<RetrievedShiftDto?>.Fail($"Error updating shift {updateShiftDto.Id}");
         }
 
-        return new Result<RetrievedShiftDto?>(updatedShift.ToRetrievedShiftDto());
+        return Result<RetrievedShiftDto?>.Ok(updatedShift.ToRetrievedShiftDto());
     }
 
     public async Task<Result> DeleteShiftAsync(UserParams userParams)
     {
+        var isValidShiftId = await _repository.IsValidShiftId(userParams.ShiftId);
+
+        if (!isValidShiftId)
+        {
+            return Result.Fail($"No shift with id {userParams.ShiftId} found");
+        }
+
+        var isValidCredentials = await _repository
+            .IsValidShiftOwnership(new UserParams { ShiftId = userParams.ShiftId, UserId = userParams.UserId });
+
+        if (!isValidCredentials)
+        {
+            return Result<RetrievedShiftDto?>.Fail($"Invalid credentials for accessing or modifying shift {userParams.ShiftId}");
+        }
+
         var deletionResult = await _repository.DeleteShiftAsync(userParams);
 
         if (!deletionResult)
@@ -55,6 +85,21 @@ public class ShiftsLoggerService : IShiftsLoggerService
 
     public async Task<Result<RetrievedShiftDto?>> GetShiftAsync(UserParams userParams)
     {
+        var isValidShiftId = await _repository.IsValidShiftId(userParams.ShiftId);
+
+        if (!isValidShiftId)
+        {
+            return Result<RetrievedShiftDto?>.Fail($"No shift with id {userParams.ShiftId} found");
+        }
+
+        var isValidCredentials = await _repository
+            .IsValidShiftOwnership(new UserParams { ShiftId = userParams.ShiftId, UserId = userParams.UserId });
+
+        if (!isValidCredentials)
+        {
+            return Result<RetrievedShiftDto?>.Fail($"Invalid credentials for accessing or modifying shift {userParams.ShiftId}");
+        }
+
         var shift = await _repository.GetShiftAsync(userParams);
 
         if (shift is null)
@@ -91,9 +136,9 @@ public class ShiftsLoggerService : IShiftsLoggerService
         return Result<int>.Ok(shiftsCount);
     }
 
-    public async Task<Result<int>> GetCountOfShiftsForAdminAsync()
+    public async Task<Result<int>> GetCountOfAllShiftsForAdminAsync()
     {
-        var shiftsCount = await _repository.GetCountOfShiftsForAdminAsync();
+        var shiftsCount = await _repository.GetCountOfAllShiftsForAdminAsync();
 
         if (shiftsCount == -1)
         {

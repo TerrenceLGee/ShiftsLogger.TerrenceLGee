@@ -142,7 +142,7 @@ public class ShiftsLoggerRepository : IShiftsLoggerRepository
     {
         try
         {
-            var count = await GetCountOfShiftsForAdminAsync();
+            var count = await GetCountOfAllShiftsForAdminAsync();
 
             return await _context.Shifts
                 .AsNoTracking()
@@ -178,7 +178,7 @@ public class ShiftsLoggerRepository : IShiftsLoggerRepository
         }
     }
 
-    public async Task<int> GetCountOfShiftsForAdminAsync()
+    public async Task<int> GetCountOfAllShiftsForAdminAsync()
     {
         try
         {
@@ -189,10 +189,46 @@ public class ShiftsLoggerRepository : IShiftsLoggerRepository
         catch (Exception ex)
         {
             _errorMessage = $"\nClass: {nameof(ShiftsLoggerRepository)}\n" +
-                $"Method: {nameof(GetCountOfShiftsForAdminAsync)}\n" +
+                $"Method: {nameof(GetCountOfAllShiftsForAdminAsync)}\n" +
                 $"There was an unexpected error retrieving the total count of all shifts: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return -1;
+        }
+    }
+
+    public async Task<bool> IsValidShiftId(int shiftId)
+    {
+        try
+        {
+            return await _context.Shifts
+                .AsNoTracking()
+                .AnyAsync(s => s.Id == shiftId);
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ShiftsLoggerRepository)}\n" +
+                $"Method: {nameof(IsValidShiftId)}\n" +
+                $"There was an unexpected error querying the validity of the shift id: {shiftId}: {ex.Message}";
+            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
+            return false;
+        }
+    }
+
+    public async Task<bool> IsValidShiftOwnership(UserParams userParams)
+    {
+        try
+        {
+            return await _context.Shifts
+                .AsNoTracking()
+                .AnyAsync(s => s.Id == userParams.ShiftId && s.UserId.Equals(userParams.UserId));
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ShiftsLoggerRepository)}\n" +
+                $"Method: {nameof(IsValidShiftOwnership)}\n" +
+                $"There was an unexpected error querying the validity of the ownership of shift: {userParams.ShiftId}: {ex.Message}";
+            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
+            return false;
         }
     }
 }

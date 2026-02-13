@@ -4,10 +4,8 @@ namespace ShiftsLogger.Contracts.TerrenceLGee.DTOs.ShiftDTOs;
 
 public class UpdateShiftDto
 {
-    [Required(ErrorMessage = "Shift id is required.")]
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "User Id is required.")]
     public string UserId { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Shift start date and time is required.")]

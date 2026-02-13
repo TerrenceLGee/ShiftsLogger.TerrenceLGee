@@ -12,8 +12,6 @@ public static class EnumerableExtensions
             if (count > 0)
             {
                 var items = source
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
                     .ToList();
 
                 return new PagedList<T>(items, count, page, pageSize);

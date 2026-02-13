@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
@@ -83,6 +84,11 @@ builder.Services.Configure<AuthConfiguration>(builder.Configuration.GetSection(a
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IShiftsLoggerRepository, ShiftsLoggerRepository>();
 builder.Services.AddScoped<IShiftsLoggerService, ShiftsLoggerService>();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 var app = builder.Build();
 
