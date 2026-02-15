@@ -38,4 +38,29 @@ public static class ViewHelpers
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
     }
+
+    public static void DisplayShiftsForAdmin(List<ShiftsData> shifts)
+    {
+        var table = new Table()
+            .BorderColor(Color.DeepSkyBlue4)
+            .Title("Employee Shifts");
+        table.AddColumn("[cyan]Shift Id[/]");
+        table.AddColumn("[cyan]User Id[/]");
+        table.AddColumn("[cyan]Shift Start[/]");
+        table.AddColumn("[cyan]Shift End[/]");
+        table.AddColumn("[cyan]Shift Duration[/]");
+
+        foreach (var shift in shifts)
+        {
+            table.AddRow(
+                $"[cyan]{shift.Id}[/]",
+                $"[cyan]{shift.UserId}[/]",
+                $"[cyan]{shift.ShiftStart}[/]",
+                $"[cyan]{((shift.ShiftEnd.HasValue) ? shift.ShiftEnd.Value.ToString() : "N/A")}[/]",
+                $"[cyan]{((shift.Duration.HasValue) ? shift.Duration.Value.ToString() : "N/A")}[/]");
+        }
+
+        AnsiConsole.Write(table);
+        AnsiConsole.WriteLine();
+    }
 }

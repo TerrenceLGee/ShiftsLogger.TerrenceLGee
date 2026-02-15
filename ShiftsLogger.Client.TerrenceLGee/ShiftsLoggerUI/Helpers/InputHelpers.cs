@@ -94,7 +94,7 @@ public static class InputHelpers
 
     public static string GetUserPassword()
     {
-        return AnsiConsole.Prompt(new TextPrompt<string>("[Gray93]Enter password: [/]")
+        return AnsiConsole.Prompt(new TextPrompt<string>("[DarkTurquoise]Enter password: [/]")
             .Secret());
     }
 

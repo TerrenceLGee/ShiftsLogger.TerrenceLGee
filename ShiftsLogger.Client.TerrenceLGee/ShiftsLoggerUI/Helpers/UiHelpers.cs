@@ -14,7 +14,7 @@ public static class UiHelpers
 
     public static void PressAnyKeyToContinueError(string? errorMessage)
     {
-        AnsiConsole.MarkupLine($"[red]:warning: {errorMessage}[/]");
+        AnsiConsole.MarkupLine($"[red]{errorMessage}[/]");
         AnsiConsole.MarkupLine($"[DarkOrange]Press any key to continue[/]");
         Console.ReadKey();
         AnsiConsole.Clear();

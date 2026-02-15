@@ -375,7 +375,7 @@ public class ShiftsService : IShiftsService
 
             var response = await httpClient.GetAsync(url);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 return (-1, response.ReasonPhrase);
             }
@@ -420,7 +420,7 @@ public class ShiftsService : IShiftsService
 
             var response = await httpClient.GetAsync(url);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 return (-1, response.ReasonPhrase);
             }

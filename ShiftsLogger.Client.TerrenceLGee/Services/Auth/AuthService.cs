@@ -60,7 +60,7 @@ public class AuthService : IAuthService
                 $"Method: {nameof(RegisterUserAsync)}\n" +
                 $"There was an API error attempting to register a new user: {ex.Message}\n";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return null;
+            return "Registration request failed";
         }
         catch (Exception ex)
         {
@@ -68,7 +68,7 @@ public class AuthService : IAuthService
                 $"Method: {nameof(RegisterUserAsync)}\n" +
                 $"There was an unexpected error attempting to regeister a new user: {ex.Message}\n";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return null;
+            return "Unexpected error during user registration\nRegistration failed";
         }
     }
 

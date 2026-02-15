@@ -146,7 +146,8 @@ public class ShiftsLoggerRepository : IShiftsLoggerRepository
 
             return await _context.Shifts
                 .AsNoTracking()
-                .OrderBy(s => s.UserId)
+                .OrderBy(s => s.Id)
+                .ThenBy(s => s.UserId)
                 .ToPagedListAsync(count, paginationParams.Page, paginationParams.PageSize);
         }
         catch (Exception ex)
