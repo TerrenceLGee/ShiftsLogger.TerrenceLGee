@@ -142,7 +142,7 @@ public class ShiftsLoggerService : IShiftsLoggerService
 
         if (shiftsCount == -1)
         {
-            return Result<int>.Fail("Error retrieving the count of shifts");
+            return Result<int>.Fail("Error retrieving the count of all shifts");
         }
 
         return Result<int>.Ok(shiftsCount);
